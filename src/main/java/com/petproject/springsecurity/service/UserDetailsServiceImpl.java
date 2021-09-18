@@ -1,6 +1,6 @@
 package com.petproject.springsecurity.service;
 
-import com.petproject.springsecurity.model.security.DbAppUser;
+import com.petproject.springsecurity.model.security.AppUser;
 import com.petproject.springsecurity.model.security.Privilege;
 import com.petproject.springsecurity.model.security.Role;
 import com.petproject.springsecurity.repository.UserRepository;
@@ -26,27 +26,17 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         this.userRepository = userRepository;
     }
 
-    //    private final RoleRepository roleRepository;
-//    private final PasswordEncoder passwordEncoder;
-
-//    @Autowired
-//    public UserDetailsServiceImpl(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
-//        this.userRepository = userRepository;
-//        this.roleRepository = roleRepository;
-//        this.passwordEncoder = passwordEncoder;
-//    }
-
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        DbAppUser user = userRepository
+        AppUser user = userRepository
                 .findByUsernameContainingIgnoreCase(username)
                 .orElseThrow(() -> new UsernameNotFoundException(String.format("Username %s not found", username)));;
 
         return new User(user.getUsername(), user.getPassword(), getAuthoritiesForUser(user));
     }
 
-    private Set<SimpleGrantedAuthority> getAuthoritiesForUser(DbAppUser user) {
+    private Set<SimpleGrantedAuthority> getAuthoritiesForUser(AppUser user) {
         Set<SimpleGrantedAuthority> authorities = new HashSet<>();
 
         for (Role role : user.getRoles()) {

@@ -24,7 +24,7 @@ public class Role {
     private String name;
 
     @ManyToMany(mappedBy = "roles")
-    private Collection<DbAppUser> users;
+    private Collection<AppUser> users;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
