@@ -1,5 +1,6 @@
 package com.petproject.springsecurity.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -22,6 +23,7 @@ public class SecutiryConfig extends WebSecurityConfigurerAdapter {
     private final PasswordEncoder passwordEncoder;
     private final UserDetailsService userDetailsService;
 
+    @Autowired
     public SecutiryConfig(PasswordEncoder passwordEncoder, UserDetailsService userDetailsService) {
         this.passwordEncoder = passwordEncoder;
         this.userDetailsService = userDetailsService;
@@ -29,7 +31,6 @@ public class SecutiryConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        //TODO whitelist resources, formLogin, logout, rememberMe,
         http
             .csrf().disable()
 
@@ -48,14 +49,17 @@ public class SecutiryConfig extends WebSecurityConfigurerAdapter {
                 .tokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(21))
                 .key("8nNw6y39-XKnDthqG-QTMWtBCv-ZbsVrDXc-vfdEjw9X")
                 .rememberMeParameter("remember-me")
+                .userDetailsService(userDetailsService)
 
             .and().logout()
-                .logoutSuccessUrl("/login")
+                .logoutUrl("/logout_perform")
                 //почитать подробней про это, связано с CSRF Post поведением
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout_perform", "GET"))
                 .clearAuthentication(true)
                 .deleteCookies("JSESSIONID", "remember-me")
                 .invalidateHttpSession(true)
+                .logoutSuccessUrl("/login")
+
             .and()
                 .exceptionHandling().accessDeniedPage("/accessDenied");
 
