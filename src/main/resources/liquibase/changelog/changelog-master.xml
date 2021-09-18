@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+    <changeSet id="1" author="lexsav">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="students"/>
+            </not>
+        </preConditions>
+        <createTable tableName="students">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="first_name" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="last_name" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2" author="lexsav">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="roles"/>
+            </not>
+        </preConditions>
+        <createTable tableName="roles">
+            <column name="id" type="bigint">
+            </column>
+
+            <column name="name" type="varchar(50)">
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="3" author="lexsav">
+        <preConditions onFail="MARK_RAN">
+        <not>
+            <tableExists tableName="privileges"/>
+        </not>
+        </preConditions>
+        <createTable tableName="privileges">
+            <column name="id" type="bigint">
+            </column>
+
+            <column name="name" type="varchar(50)">
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

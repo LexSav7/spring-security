@@ -1,0 +1,144 @@
+databaseChangeLog:
+  - preConditions:
+      - onFail: WARN
+      - sqlCheck:
+          expectedResult: 0
+          sql: select count(*) from DATABASECHANGELOGLOCK
+  - changeSet:
+      id: 1
+      author: lexsav
+      comment: "Create Students table"
+      changes:
+        - createTable:
+            tableName: students
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: first_name
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_name
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 2
+      author: lexsav
+      comment: "Create Roles table"
+      changes:
+        - createTable:
+            tableName: roles
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: name
+                  type: varchar(50)
+
+  - changeSet:
+      id: 3
+      author: lexsav
+      comment: "Create Privileges table"
+      changes:
+        - createTable:
+            tableName: privileges
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: name
+                  type: varchar(50)
+
+#
+#
+#  - changeSet:
+#      id: 4
+#      author: lexsav
+#      comment: "Insert data in Students table"
+#      changes:
+#        - insert:
+#            tableName: students
+#            columns:
+#              - column:
+#                  name: first_name
+#                  value: "George"
+#              - column:
+#                  name: last_name
+#                  value: "Bush"
+#        - insert:
+#            tableName: students
+#            columns:
+#              - column:
+#                  name: first_name
+#                  value: "Peter"
+#              - column:
+#                  name: last_name
+#                  value: "Parker"
+#        - insert:
+#            tableName: students
+#            columns:
+#              - column:
+#                  name: first_name
+#                  value: "Random"
+#              - column:
+#                  name: last_name
+#                  value: "Dude"
+#
+#  - changeSet:
+#      id: 5
+#      author: lexsav
+#      comment: "Insert data in Users table"
+#      changes:
+#        - insert:
+#            tableName: users
+#            columns:
+#              - column:
+#                  name: username
+#                  value: "annasmith"
+#              - column:
+#                  name: password
+#                  value: "password1"
+#        - insert:
+#            tableName: users
+#            columns:
+#              - column:
+#                  name: username
+#                  value: "adminovich"
+#              - column:
+#                  name: password
+#                  value: "password2"
+#
+#  - changeSet:
+#      id: 6
+#      author: lexsav
+#      comment: "Insert data in Roles table"
+#      changes:
+#        - insert:
+#            tableName: roles
+#            columns:
+#              - column:
+#                  name: username
+#                  value: "annasmith"
+#              - column:
+#                  name: role
+#                  value: "student"
+#        - insert:
+#            tableName: roles
+#            columns:
+#              - column:
+#                  name: username
+#                  value: "adminovich"
+#              - column:
+#                  name: role
+#                  value: "admin"
